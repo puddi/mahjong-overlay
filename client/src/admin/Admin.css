@@ -1,0 +1,336 @@
+.Admin {
+
+}
+
+p {
+  margin-top: 0;
+}
+
+.admin-header {
+  position: fixed;
+  top: 0;
+  z-index: 4;
+  background-color: rgb(240, 240, 240);
+  border-bottom: 2px solid black;
+  width: 100%;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gamestatus-inactive {
+  margin-left: 4px;
+  color: red;
+}
+
+.gamestatus-active {
+  margin-left: 4px;
+  color: green;
+}
+
+.endGameButton {
+  padding: 8px;
+  position: fixed;
+  left: 12px;
+  background-color: rgb(229, 143, 143);
+  transition: background-color .2s;
+}
+
+.endGameButton:hover {
+  background-color: rgb(235, 102, 102) !important;
+}
+
+.overlayButton {
+  padding: 8px;
+  margin-left: 12px;
+  transition: background-color .2s;
+}
+
+.usersButton {
+  position: fixed;
+  right: 12px;
+  padding: 8px;
+}
+
+.admin-sidebar {
+  background-color: white;
+  width: 250px;
+  height: 100vh;
+  right: 0;
+  top: 0;
+  position: fixed;
+  z-index: 2;
+  border-left: 1px solid black;
+  box-shadow: -10px 0px 15px rgba(120,120,120, 0.4);
+  padding: 60px 16px 0;
+  transform: translateX(300px);
+  transition: transform .2s;
+}
+
+.admin-sidebar.visible {
+  transform: translateX(0px);
+}
+
+.admin-sidebar input {
+  width: calc(100% - 8px);
+  padding: 4px;
+}
+
+.userSidebarCard {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.userSidebarCard label {
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  background-color: rgb(190, 190, 240);
+}
+
+.userSidebarCard input, .userSidebarCard input:focus {
+  border: none;
+  outline: none;
+}
+
+.userSidebarCard input.nameInput {
+  height: 28px;
+  font-size: 24px;
+}
+
+.admin-content {
+  margin: 60px 16px;
+  display: flex;
+  flex-direction: row;
+  width: calc(100vw - 32px);
+}
+
+
+.active-game {
+  width: 100%;
+}
+
+.active-game h2 {
+  margin: 0px 4px 8px;
+}
+
+
+.topSection {
+  display: flex;  
+}
+
+.topSection .game-status p.round-buttons button {
+  margin: 0px 4px;
+}
+
+.doraSection {
+  margin-left: 50px;
+}
+
+
+
+.seating-tips {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.seating-tips > span {
+  width: 25%;
+  flex-grow: 1;
+  border-bottom: 4px solid rgb(220, 220, 220);
+}
+
+.seating-tips > span > span {
+  background-color: rgb(220, 220, 220);
+  padding: 4px;
+}
+
+.playerCards {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  width: 100%;
+}
+
+.playerCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(25% - 16px);
+  margin: 0px 8px;
+}
+
+.playerPositionControls {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+}
+
+.playerPositionControls button:disabled {
+  opacity: 0.3;
+  background-color: rgba(180, 180, 180, 0.2);
+}
+
+.playerCard h3 {
+  margin: 8px 4px 0;
+}
+
+.startParagraph {
+  margin-top: 100px;
+}
+
+.startGameButton {
+  padding: 16px;
+}
+
+
+.pointsInput, .pointsInput:focus {
+  font-size: 24px;
+  text-align: center;
+  font-weight: 700;
+  width: 150px;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid rgba(0,0,0,0);
+}
+
+.pointsInput:focus {
+  border-bottom: 1px solid rgba(0,0,0,1);
+}
+
+.riichiIndicator {
+  background-color: rgb(229, 143, 143) !important;
+}
+
+.tenpaiIndicator {
+  background-color: rgb(233, 173, 128) !important;
+}
+
+.winButtons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.winButtons > * {
+  margin: 4px auto;
+}
+
+.winButtons button {
+  padding: 4px;
+}
+
+.middleRonButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: calc(100% - 12px);
+}
+
+.middleRonButtons button {
+  max-width: calc(50% - 8px);
+}
+
+.riichiTenpaiCheckboxes {
+  margin-bottom: 32px;
+}
+
+
+
+.modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0, 0.4);
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity .2s;
+}
+
+.modal.inactive {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modalContent {
+  background-color: white;
+  padding: 32px;
+  border-radius: 12px;
+}
+
+.modalContent h3 {
+  text-align: center;
+}
+
+.tsumoGrid, .ronGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  gap: 4px;
+  align-items: center;
+  justify-items: center;
+}
+
+.tsumoGridRare, .ronGridRare {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 4px;
+  align-items: center;
+  justify-items: center;
+}
+
+.tsumoGrid span, .tsumoGridRare span, .ronGrid span, .ronGridRare span {
+  padding: 4px 2px 0px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+.modalClickable {
+  cursor: pointer;
+  background-color: white;
+  transition: background-color .2s;
+}
+
+.modalClickable:hover {
+  background-color: rgb(240,240,240);
+}
+
+.ryuukyokuModalContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.ryuukyokuModalContent button {
+  margin-top: 24px;
+  height: 32px;
+}
+
+.doraSection {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 16px;
+}
+
+.selectedDora {
+  margin-right: 48px;
+}
+
+.tile {
+  height: 36px;
+  border: 1px solid black;
+  margin: 2px 4px;
+  cursor: pointer;
+}
