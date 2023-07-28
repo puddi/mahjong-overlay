@@ -40,7 +40,13 @@ const Overlay = () => {
 
 
   React.useEffect(() => {
-    const socket = new WebSocket(`ws://${window.location.hostname}:443/${overlayId}`);
+    let protocol;
+    if (window.location.hostname === 'localhost') {
+      protocol = 'ws';
+    } else {
+      protocol = 'wss';
+    }
+    const socket = new WebSocket(`${protocol}://${window.location.hostname}:443/${overlayId}`);
 
     setWs(socket);
 
