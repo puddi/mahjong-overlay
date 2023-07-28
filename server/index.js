@@ -10,7 +10,6 @@ const websockets = new Map();
 const wss = new WebSocketServer({ port: 443 });
 
 wss.on('connection', (ws, req) => {
-  console.log('new connection', req.url)
   ws.isAlive = true;
   const parts = req.url?.split('/');
   if (parts.length !== 2) {
@@ -58,6 +57,16 @@ app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.get("/check-availability/:overlayId", (req, res) => {
   return res.json({ available: !websockets.has(req.params.overlayId) });
 });
+
+
+app.get("/admin/:overlayId", (req, res) => {
+  return res.sendFile(path.resolve(__dirname, '../client/build/index.html'));
+})
+
+
+app.get("/overlay/:overlayId", (req, res) => {
+  return res.sendFile(path.resolve(__dirname, '../client/build/index.html'));
+})
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
