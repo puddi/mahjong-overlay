@@ -423,7 +423,7 @@ const Admin = () => {
                 <p>Honba: {honba} <button disabled={honba <= 0} onClick={() => setHonba(honba - 1)}>-1</button> <button onClick={() => setHonba(honba + 1)}>+1</button></p>
                 <p>Riichi Sticks: {riichiSticks} <button disabled={riichiSticks <= 0} onClick={() => setRiichiSticks(riichiSticks - 1)}>-1</button> <button onClick={() => setRiichiSticks(riichiSticks + 1)}>+1</button></p>
                 <p><button onClick={() => sendGameState()}>Force Sync</button></p>
-                <p>Checksum: {checkSum ? <span style={{color: 'green'}}>Valid</span> : <span style={{color: 'red'}}>Invalid</span>}</p>
+                <p>Checksum: <span style={{color: checkSum ? 'green' : 'red'}}>{(points[0] + points[1] + points[2] + points[3] + (riichiSticks * 1000)).toLocaleString()}</span></p>
               </div>
 
               <div className={'doraSection'}>
