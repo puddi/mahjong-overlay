@@ -149,7 +149,7 @@ const Admin = () => {
 
   React.useEffect(() => {
     sendGameState();
-  }, [honba, round, riichiSticks, riichiTenpaiStatus, dora]);
+  }, [honba, round, riichiSticks, riichiTenpaiStatus, dora, gameOver]);
 
   React.useEffect(() => {
     const gameState = {
@@ -415,14 +415,17 @@ const Admin = () => {
           <section className={'active-game'}>
             <div className='topSection'>
               <div className={'game-status'}>
-                <h2>Game Status: {roundString(round)}</h2>
+                <h2>Game Status: {gameOver ? 'Game Over' : roundString(round)}</h2>
                 <p className={'round-buttons'}><button disabled={round === 1} onClick={() => setRound(round - 1)}>To {roundString(round - 1)}</button> 
                 <button onClick={() => setRoundHelper(round + 1)}>To {roundString(round + 1)}</button>
                 <button onClick={() => setRyuukyokuModalOpen(true)}>Ryuukyoku</button></p>
 
                 <p>Honba: {honba} <button disabled={honba <= 0} onClick={() => setHonba(honba - 1)}>-1</button> <button onClick={() => setHonba(honba + 1)}>+1</button></p>
                 <p>Riichi Sticks: {riichiSticks} <button disabled={riichiSticks <= 0} onClick={() => setRiichiSticks(riichiSticks - 1)}>-1</button> <button onClick={() => setRiichiSticks(riichiSticks + 1)}>+1</button></p>
-                <p><button onClick={() => sendGameState()}>Force Sync</button></p>
+                <p>
+                  <button onClick={() => sendGameState()}>Force Sync</button>
+                  {gameOver && <button onClick={() => setGameOver(false)} style={{marginLeft: '10px'}}>Un-Game Over</button>}
+                </p>
                 <p>Checksum: <span style={{color: checkSum ? 'green' : 'red'}}>{(points[0] + points[1] + points[2] + points[3] + (riichiSticks * 1000)).toLocaleString()}</span></p>
               </div>
 
