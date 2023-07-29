@@ -89,6 +89,6 @@ wss.on('close', () => {
   clearInterval(interval);
 });
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
