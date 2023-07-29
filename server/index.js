@@ -64,7 +64,7 @@ wss.on('connection', (ws, req) => {
   });
 
   ws.on('message', (data, isBinary) => {
-    console.log('New message for ', ws.overlayId));
+    console.log('New message for ', ws.overlayId);
     wss.clients.forEach(function each(client) {
       if (client !== ws && ws.overlayId === client.overlayId && client.readyState === WebSocket.OPEN) {
         client.send(data, { binary: isBinary });
