@@ -58,13 +58,12 @@ const Admin = () => {
   }
 
   React.useEffect(() => {
-    let protocol;
+    let socket;
     if (window.location.hostname === 'localhost') {
-      protocol = 'ws';
+      socket = new WebSocket(`ws://localhost:443/${overlayId}`);
     } else {
-      protocol = 'wss';
+      socket = new WebSocket(`wss://${window.location.host}/${overlayId}`);
     }
-    const socket = new WebSocket(`${protocol}://${window.location.hostname}:443/${overlayId}`);
 
     setWs(socket);
   }, []);
