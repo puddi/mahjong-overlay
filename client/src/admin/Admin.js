@@ -715,18 +715,18 @@ const Admin = () => {
               <span>100 fu</span>
 
               <span>1 han</span>
-              <span className={'modalClickable'} onClick={() => handleRon(600, 1200)}>{isPossibleWinnerDealer ? '1200 all' : '600/1200'}</span>
-              <span className={'modalClickable'} onClick={() => handleRon(700, 1300)}>{isPossibleWinnerDealer ? '1300 all' : '700/1300'}</span>
-              <span className={'modalClickable'} onClick={() => handleRon(800, 1500)}>{isPossibleWinnerDealer ? '1500 all' : '800/1500'}</span>
-              <span className={'modalClickable'} onClick={() => handleRon(800, 1600)}>{isPossibleWinnerDealer ? '1600 all' : '800/1600'}</span>
-              <span className={'modalClickable'} onClick={() => handleRon(900, 1800)}>{isPossibleWinnerDealer ? '1800 all' : '900/1800'}</span>
+              <span className={'modalClickable'} onClick={() => handleRon(2300, 3400)}>{isPossibleWinnerDealer ? '3400' : '2300'}</span>
+              <span className={'modalClickable'} onClick={() => handleRon(2600, 3900)}>{isPossibleWinnerDealer ? '3900' : '2600'}</span>
+              <span className={'modalClickable'} onClick={() => handleRon(2900, 4400)}>{isPossibleWinnerDealer ? '4400' : '2900'}</span>
+              <span className={'modalClickable'} onClick={() => handleRon(3200, 4800)}>{isPossibleWinnerDealer ? '4800' : '3200'}</span>
+              <span className={'modalClickable'} onClick={() => handleRon(3600, 5300)}>{isPossibleWinnerDealer ? '5300' : '3600'}</span>
 
               <span>2 han</span>
-              <span className={'modalClickable'} onClick={() => handleRon(1200, 2300)}>{isPossibleWinnerDealer ? '2300 all' : '1200/2300'}</span>
-              <span className={'modalClickable'} onClick={() => handleRon(1300, 2600)}>{isPossibleWinnerDealer ? '2600 all' : '1300/2600'}</span>
-              <span className={'modalClickable'} onClick={() => handleRon(1500, 2900)}>{isPossibleWinnerDealer ? '2900 all' : '1500/2900'}</span>
-              <span className={'modalClickable'} onClick={() => handleRon(1600, 3200)}>{isPossibleWinnerDealer ? '3200 all' : '1600/3200'}</span>
-              <span className={'modalClickable'} onClick={() => handleRon(1800, 3600)}>{isPossibleWinnerDealer ? '3600 all' : '1800/3600'}</span>
+              <span className={'modalClickable'} onClick={() => handleRon(4500, 6800)}>{isPossibleWinnerDealer ? '6800' : '4500'}</span>
+              <span className={'modalClickable'} onClick={() => handleRon(5200, 7700)}>{isPossibleWinnerDealer ? '7700' : '5200'}</span>
+              <span className={'modalClickable'} onClick={() => handleRon(5800, 8700)}>{isPossibleWinnerDealer ? '8700' : '5800'}</span>
+              <span className={'modalClickable'} onClick={() => handleRon(6400, 9600)}>{isPossibleWinnerDealer ? '9600' : '6400'}</span>
+              <span className={'modalClickable'} onClick={() => handleRon(7100, 10600)}>{isPossibleWinnerDealer ? '10600' : '7100'}</span>
             </div>
           </div>
         </div>
