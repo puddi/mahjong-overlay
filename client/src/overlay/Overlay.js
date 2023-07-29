@@ -38,7 +38,18 @@ const Overlay = () => {
     onResolve: () => setAnimatingPlayerFour(0),
   });
 
-
+  React.useEffect(() => {
+    [
+      '1s', '2s', '3s', '4s', '5s', '6s', '7s', '8s', '9s',
+      '1p', '2p', '3p', '4p', '5p', '6p', '7p', '8p', '9p',
+      '1m', '2m', '3m', '4m', '5m', '6m', '7m', '8m', '9m',
+      '1z', '2z', '3z', '4z', '5z', '6z', '7z',
+    ].forEach(tile => {
+      const img = new Image();
+      img.src = require(`../tiles/${tile}.png`);
+    })
+  })
+  
   React.useEffect(() => {
     let socket;
     if (window.location.hostname === 'localhost') {

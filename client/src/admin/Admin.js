@@ -19,7 +19,7 @@ const Admin = () => {
   const [possibleWinner, setPossibleWinner] = React.useState(null);
   const [possibleLoser, setPossibleLoser] = React.useState(null);
   const [lastSentGameState, setLastSentGameState] = React.useState({});
-  
+  const lastPossibleWinner = React.useRef();
 
   const [gameActive, setGameActive] = useStickyState(false, `${overlayId}-gameActive`)
   const [users, setUsers] = useStickyState([], `${overlayId}-users`);
@@ -56,6 +56,12 @@ const Admin = () => {
     }
     setRound(Math.min(8, r));
   }
+
+  React.useEffect(() => {
+    if (possibleWinner != null) {
+      lastPossibleWinner.current = possibleWinner;
+    }
+  }, [possibleWinner]);
 
   React.useEffect(() => {
     let socket;
@@ -333,18 +339,13 @@ const Admin = () => {
     }
   }
 
-  const removeDora = (tile) => {
-    const location = dora.lastIndexOf(tile);
-    if (location !== -1) {
-      setDora(dora.toSpliced(location, 1));
-    }
-  }
-
   const removeDoraAtIndex = (index) => {
     setDora(dora.toSpliced(index, 1));
   }
 
-  const isPossibleWinnerDealer = players.indexOf(possibleWinner) === (round - 1) % 4;
+  const isPossibleWinnerDealer = players.indexOf(possibleWinner ?? lastPossibleWinner.current) === (round - 1) % 4;
+
+  const checkSum = (points[0] + points[1] + points[2] + points[3] + (riichiSticks * 1000)) === 120000;
 
   return (
     <div className="admin">
@@ -422,6 +423,7 @@ const Admin = () => {
                 <p>Honba: {honba} <button disabled={honba <= 0} onClick={() => setHonba(honba - 1)}>-1</button> <button onClick={() => setHonba(honba + 1)}>+1</button></p>
                 <p>Riichi Sticks: {riichiSticks} <button disabled={riichiSticks <= 0} onClick={() => setRiichiSticks(riichiSticks - 1)}>-1</button> <button onClick={() => setRiichiSticks(riichiSticks + 1)}>+1</button></p>
                 <p><button onClick={() => sendGameState()}>Force Sync</button></p>
+                <p>Checksum: {checkSum ? <span style={{color: 'green'}}>Valid</span> : <span style={{color: 'red'}}>Invalid</span>}</p>
               </div>
 
               <div className={'doraSection'}>
@@ -606,10 +608,10 @@ const Admin = () => {
               <span className={'modalClickable'} style={{gridColumn: 'span 6'}} onClick={() => handleTsumo(4000, 8000)}>Baiman {isPossibleWinnerDealer ? '(8000 all)' : '(4000/8000)'}</span>
 
               <span>11-12 han</span>
-              <span className={'modalClickable'} style={{gridColumn: 'span 6'}} onClick={() => handleTsumo(6000, 12000)}>{isPossibleWinnerDealer ? '(12000 all)' : '(6000/12000)'}</span>
+              <span className={'modalClickable'} style={{gridColumn: 'span 6'}} onClick={() => handleTsumo(6000, 12000)}>Haneman {isPossibleWinnerDealer ? '(12000 all)' : '(6000/12000)'}</span>
 
               <span>13 han</span>
-              <span className={'modalClickable'} style={{gridColumn: 'span 6'}} onClick={() => handleTsumo(8000, 16000)}>{isPossibleWinnerDealer ? '(16000 all)' : '(8000/16000)'}</span>
+              <span className={'modalClickable'} style={{gridColumn: 'span 6'}} onClick={() => handleTsumo(8000, 16000)}>Yakuman {isPossibleWinnerDealer ? '(16000 all)' : '(8000/16000)'}</span>
             </div>
 
             <hr></hr>
@@ -636,6 +638,13 @@ const Admin = () => {
               <span className={'modalClickable'} onClick={() => handleTsumo(1500, 2900)}>{isPossibleWinnerDealer ? '2900 all' : '1500/2900'}</span>
               <span className={'modalClickable'} onClick={() => handleTsumo(1600, 3200)}>{isPossibleWinnerDealer ? '3200 all' : '1600/3200'}</span>
               <span className={'modalClickable'} onClick={() => handleTsumo(1800, 3600)}>{isPossibleWinnerDealer ? '3600 all' : '1800/3600'}</span>
+            
+              <span>Yakuman</span>
+              <span className={'modalClickable'} onClick={() => handleTsumo(16000, 32000)}>2x</span>
+              <span className={'modalClickable'} onClick={() => handleTsumo(24000, 48000)}>3x</span>
+              <span className={'modalClickable'} onClick={() => handleTsumo(32000, 64000)}>4x</span>
+              <span className={'modalClickable'} onClick={() => handleTsumo(40000, 80000)}>5x</span>
+              <span className={'modalClickable'} onClick={() => handleTsumo(48000, 96000)}>6x</span>
             </div>
           </div>
         </div>
@@ -696,10 +705,10 @@ const Admin = () => {
               <span className={'modalClickable'} style={{gridColumn: 'span 6'}} onClick={() => handleRon(16000, 24000)}>Baiman {isPossibleWinnerDealer ? '(24000)' : '(16000)'}</span>
 
               <span>11-12 han</span>
-              <span className={'modalClickable'} style={{gridColumn: 'span 6'}} onClick={() => handleRon(24000, 36000)}>{isPossibleWinnerDealer ? '(36000)' : '(24000)'}</span>
+              <span className={'modalClickable'} style={{gridColumn: 'span 6'}} onClick={() => handleRon(24000, 36000)}>Haneman {isPossibleWinnerDealer ? '(36000)' : '(24000)'}</span>
 
               <span>13 han</span>
-              <span className={'modalClickable'} style={{gridColumn: 'span 6'}} onClick={() => handleRon(32000, 48000)}>{isPossibleWinnerDealer ? '(48000)' : '(32000)'}</span>
+              <span className={'modalClickable'} style={{gridColumn: 'span 6'}} onClick={() => handleRon(32000, 48000)}>Yakuman {isPossibleWinnerDealer ? '(48000)' : '(32000)'}</span>
             </div>
 
             <hr></hr>
@@ -726,6 +735,13 @@ const Admin = () => {
               <span className={'modalClickable'} onClick={() => handleRon(5800, 8700)}>{isPossibleWinnerDealer ? '8700' : '5800'}</span>
               <span className={'modalClickable'} onClick={() => handleRon(6400, 9600)}>{isPossibleWinnerDealer ? '9600' : '6400'}</span>
               <span className={'modalClickable'} onClick={() => handleRon(7100, 10600)}>{isPossibleWinnerDealer ? '10600' : '7100'}</span>
+
+              <span>Yakuman</span>
+              <span className={'modalClickable'} onClick={() => handleRon(64000, 96000)}>2x</span>
+              <span className={'modalClickable'} onClick={() => handleRon(96000, 144000)}>3x</span>
+              <span className={'modalClickable'} onClick={() => handleRon(128000, 192000)}>4x</span>
+              <span className={'modalClickable'} onClick={() => handleRon(160000, 240000)}>5x</span>
+              <span className={'modalClickable'} onClick={() => handleRon(192000, 288000)}>6x</span>
             </div>
           </div>
         </div>
