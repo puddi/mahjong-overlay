@@ -506,7 +506,6 @@ const Admin = () => {
                       <label>
                         <input type="checkbox" 
                           checked={riichiTenpaiStatus[index] === 1} 
-                          disabled={riichiTenpaiStatus[index] === 2}
                           onChange={(e) => e.target.checked ? declareRiichi(index) : undeclareRiichi(index)}
                         />
                           Riichi
@@ -622,7 +621,7 @@ const Admin = () => {
               <span>80 fu</span>
               <span>90 fu</span>
               <span>100 fu</span>
-              <span>100 fu</span>
+              <span>110 fu</span>
 
               <span>1 han</span>
               <span className={'modalClickable'} onClick={() => handleTsumo(600, 1200)}>{isPossibleWinnerDealer ? '1200 all' : '600/1200'}</span>
@@ -712,7 +711,7 @@ const Admin = () => {
               <span>80 fu</span>
               <span>90 fu</span>
               <span>100 fu</span>
-              <span>100 fu</span>
+              <span>110 fu</span>
 
               <span>1 han</span>
               <span className={'modalClickable'} onClick={() => handleRon(2300, 3400)}>{isPossibleWinnerDealer ? '3400' : '2300'}</span>
