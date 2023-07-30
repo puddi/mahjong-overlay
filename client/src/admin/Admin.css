@@ -334,3 +334,7 @@ p {
   margin: 2px 4px;
   cursor: pointer;
 }
+
+button {
+  padding: 8px !important;
+}

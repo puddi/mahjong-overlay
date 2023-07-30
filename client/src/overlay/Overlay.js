@@ -159,7 +159,7 @@ const Overlay = () => {
         <div className='playerPointsOverlayCardContainer'>
           {players.map((player, index) => {
             const status = riichiTenpaiStatus[index];
-            const isDealer = (round - 1 % 4) === index;
+            const isDealer = ((round - 1) % 4) === index;
 
             let pointRef;
             let animationRef;

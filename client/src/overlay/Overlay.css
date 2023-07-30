@@ -15,7 +15,7 @@
 
 .gameStatusOverlay {
   display: inline-flex;
-  background-image: linear-gradient(100deg, rgba(142, 196, 203, 0.8), rgba(142, 196, 203, 0.3) calc(100% - 30px), rgba(0, 0, 0, 0) calc(100% - 30px));
+  background-image: linear-gradient(100deg, rgba(142, 196, 203, 0.8), rgba(142, 196, 203, 0.6) calc(100% - 30px), rgba(0, 0, 0, 0) calc(100% - 30px));
   flex-direction: row;
   top: 50px;
   left: 0;
@@ -35,6 +35,10 @@
   align-items: center;
   justify-content: space-between;
   margin-left: 24px;
+}
+
+.gameStatusOverlay .stickPairing {
+  font-size: 32px;
 }
 
 .gameStatusOverlay .stick {
@@ -104,7 +108,7 @@
 
 .playerPointsOverlay {
   position: absolute;
-  bottom: 50px;
+  bottom: 60px;
   left: 100px;
   width: calc(100% - 200px);
 }
@@ -165,7 +169,7 @@
 }
 
 .playerPointsSubtitleContainer {
-  background-color: rgba(142, 196, 203, 0.5);
+  background-color: rgba(142, 196, 203, 0.6);
   width: 100%;
 }
 
@@ -175,10 +179,12 @@
 
 .playerPointsSubtitleContainer p {
   margin: 5px 0;
-  transform: skewX(10deg) translateX(5px);
+  transform: skewX(10deg) translateX(3px);
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 36px;
+  font-size: 32px;
 }
 
 .playerDealerIndicator {
@@ -211,6 +217,8 @@
 
 .overlayPlayerIndicators > div.nonDealer {
   position: absolute;
+  left: 0;
+  bottom: 0;
 }
 
 .overlayTenpaiIndicator.dealer {
