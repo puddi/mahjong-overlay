@@ -432,6 +432,7 @@ const Admin = () => {
               <div className={'doraSection'}>
                 <div className={'selectedDora'}>
                   <h2>Dora Selection</h2>
+                  {dora.length === 0 && <span style={{color: 'red'}}>No Dora Selected</span>}
                   {dora.map((tile, index) => {
                     return <img className="tile" onClick={() => removeDoraAtIndex(index)} src={require(`../tiles/${tile}.png`)} />
                   })}
