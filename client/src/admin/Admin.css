@@ -88,6 +88,8 @@ p {
   align-self: stretch;
   display: flex;
   justify-content: center;
+  align-items: center;
+  width: 30px;
   background-color: rgb(190, 190, 240);
 }
 
@@ -337,4 +339,33 @@ p {
 
 button {
   padding: 8px !important;
+}
+
+.handHistory th, .handHistory td {
+  padding: 4px 8px;
+}
+
+.handHistory tr:hover {
+  background-color: rgb(240,240,240);
+}
+
+.handHistory tr > *:nth-child(2), .handHistory tr > *:nth-child(3) {
+  text-align: center;
+}
+
+.gameTitleActiveInput {
+  border: none;
+  border-bottom: 1px solid rgba(0,0,0,0);
+  margin: 0px;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.gameTitleActiveInput:hover {
+  border-bottom: 1px solid black;
+}
+
+.gameStatusActive {
+  font-weight: 400;
 }

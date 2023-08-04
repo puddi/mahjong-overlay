@@ -18,9 +18,9 @@ const Admin = () => {
   const [ryuukyokuModalOpen, setRyuukyokuModalOpen] = React.useState(false);
   const [possibleWinner, setPossibleWinner] = React.useState(null);
   const [possibleLoser, setPossibleLoser] = React.useState(null);
-  const [lastSentGameState, setLastSentGameState] = React.useState({});
   const lastPossibleWinner = React.useRef();
 
+  const [gameTitle, setGameTitle] = useStickyState('', `${overlayId}-gameTitle`)
   const [gameActive, setGameActive] = useStickyState(false, `${overlayId}-gameActive`)
   const [users, setUsers] = useStickyState([], `${overlayId}-users`);
   const [players, setPlayers] = useStickyState([], `${overlayId}-players`);
@@ -46,9 +46,8 @@ const Admin = () => {
     dora,
     gameOver,
     gameActive,
+    gameTitle,
   }
-
-  const hasDifferentState = JSON.stringify(gameState) !== JSON.stringify(lastSentGameState);
 
   const setRoundHelper = (r) => {
     if (r > 8) {
@@ -86,7 +85,11 @@ const Admin = () => {
 
   const sendGameState = () => {
     ws?.send(JSON.stringify(gameState));
-    setLastSentGameState(gameState);
+  }
+
+  const forceSync = () => {
+    sendGameState();
+    maybeUpdateGameHistory();
   }
 
   const addUser = (event) => {
@@ -132,39 +135,34 @@ const Admin = () => {
     setRiichiTenpaiStatus([0, 0, 0, 0]);
     setPossibleWinner(null);
     setPossibleLoser(null);
-
-    // game history
-
-    setGameHistory([{
-      players: players.map((player, index) => ({
-        ...users.find(user => user.uuid === player),
-        points: 25000,
-      })),
-      round: 1,
-      honba: 0,
-      riichiSticks: 0,
-      dora: [],
-    }]);
   }
 
   React.useEffect(() => {
     sendGameState();
   }, [honba, round, riichiSticks, riichiTenpaiStatus, dora, gameOver]);
 
-  React.useEffect(() => {
+  const maybeUpdateGameHistory = () => {
     const gameState = {
       players: players.map((player, index) => ({
         ...users.find(user => user.uuid === player),
         points: points[index],
       })),
+      gameOver,
       round,
       honba,
-      riichiSticks,
-      dora
+      riichiSticks
     }
 
-    setGameHistory([...gameHistory, gameState]);
-  }, [honba, round]);
+    if (gameHistory.length === 0 || JSON.stringify(gameState) !== JSON.stringify(gameHistory[gameHistory.length - 1])) {
+      if (players.length === 4 && gameActive) {
+        setGameHistory([...gameHistory, gameState]);
+      }
+    }
+  }
+
+  React.useEffect(() => {
+    maybeUpdateGameHistory();
+  }, [honba, round, players, gameActive, gameOver]);
 
   const roundString = (r) => {
     if (r <= 0) {
@@ -347,11 +345,28 @@ const Admin = () => {
 
   const checkSum = (points[0] + points[1] + points[2] + points[3] + (riichiSticks * 1000)) === 120000;
 
+  const endGame = () => {
+    setGameActive(false);
+    setGameHistory([]);
+  }
+
+  const revertToState = (gameState, index) => {
+    if (window.confirm('Are you sure you want to revert state?')) {
+      setGameHistory(gameHistory.toSpliced(index + 1, Infinity));
+      setHonba(gameState.honba);
+      setRound(gameState.round);
+      setPoints(gameState.players.map(player => player.points));
+      setRiichiSticks(gameState.riichiSticks);
+      setGameOver(gameState.gameOver);
+      resetHand();
+    }
+  }
+
   return (
     <div className="admin">
       <header className="admin-header">
-        Game Status: {gameActive ? <span className='gamestatus-active'>{gameOver ? 'Active - Game Over' : 'Active - In Progress'}</span> : <span className='gamestatus-inactive'>Inactive</span>}
-        {gameActive && <button onClick={() => setGameActive(false)} className={'endGameButton'}>End Game</button>}        
+        {(gameTitle?.length ?? 0) !== 0 && `${gameTitle} - `} Game Status: {gameActive ? <span className='gamestatus-active'>{gameOver ? 'Active - Game Over' : 'Active - In Progress'}</span> : <span className='gamestatus-inactive'>Inactive</span>}
+        {gameActive && <button onClick={() => endGame()} className={'endGameButton'}>End Game</button>}        
         <button className='overlayButton' onClick={() => window.open(`/overlay/${overlayId}`)}>Open Overlay</button>
         <button className='usersButton' onClick={() => setShowingUsers(!showingUsers)}>{showingUsers ? 'Hide Users' : 'Show Users'}</button>
       </header>
@@ -403,8 +418,13 @@ const Admin = () => {
             })}
             </div>
 
+            <hr />
+            <h3>Game Title</h3>
+            <p>Set a game title. You can change this later.</p>
+            <input placeholder={'Game Title'} style={{width: '500px'}} value={gameTitle} onChange={(event) => setGameTitle(event.target.value)} />
 
             {players.length === 4 && <>
+              <hr />
               <p className={'startParagraph'}>When you're ready to start, hit the "Start Game" button below.</p>
               <button onClick={startGame} className={'startGameButton'}>Start Game</button>
             </>}
@@ -413,20 +433,19 @@ const Admin = () => {
 
         {gameActive && (
           <section className={'active-game'}>
+            <input className={'gameTitleActiveInput'} style={{width: '100%'}} placeholder={'Game Title'} value={gameTitle} onChange={(event) => setGameTitle(event.target.value)} />
             <div className='topSection'>
               <div className={'game-status'}>
-                <h2>Game Status: {gameOver ? 'Game Over' : roundString(round)}</h2>
+
+                <h2 className={'gameStatusActive'}>Currently: <strong>{gameOver ? 'Game Over' : roundString(round)}</strong></h2>
                 <p className={'round-buttons'}><button disabled={round === 1} onClick={() => setRound(round - 1)}>To {roundString(round - 1)}</button> 
                 <button onClick={() => setRoundHelper(round + 1)}>To {roundString(round + 1)}</button>
                 <button onClick={() => setRyuukyokuModalOpen(true)}>Ryuukyoku</button></p>
 
                 <p>Honba: {honba} <button disabled={honba <= 0} onClick={() => setHonba(honba - 1)}>-1</button> <button onClick={() => setHonba(honba + 1)}>+1</button></p>
                 <p>Riichi Sticks: {riichiSticks} <button disabled={riichiSticks <= 0} onClick={() => setRiichiSticks(riichiSticks - 1)}>-1</button> <button onClick={() => setRiichiSticks(riichiSticks + 1)}>+1</button></p>
-                <p>
-                  <button onClick={() => sendGameState()}>Force Sync</button>
-                  {gameOver && <button onClick={() => setGameOver(false)} style={{marginLeft: '10px'}}>Un-Game Over</button>}
-                </p>
-                <p>Checksum: <span style={{color: checkSum ? 'green' : 'red'}}>{(points[0] + points[1] + points[2] + points[3] + (riichiSticks * 1000)).toLocaleString()}</span></p>
+                <p>Checksum: <span style={{color: checkSum ? 'green' : 'red'}}>{(points[0] + points[1] + points[2] + points[3] + (riichiSticks * 1000)).toLocaleString()}</span> <button onClick={() => forceSync()}>Force Sync</button>
+                  {gameOver && <button onClick={() => setGameOver(false)} style={{marginLeft: '10px'}}>Un-Game Over</button>} </p>
               </div>
 
               <div className={'doraSection'}>
@@ -552,6 +571,58 @@ const Admin = () => {
                   </div>
                 )
               })}
+            </div>
+
+            <hr />
+
+            <div className={'handHistory'}>
+              <h2>Hand History</h2>
+
+              <table>
+               <tbody>
+                  <tr>
+                    <th>Round</th>
+                    <th>Honba</th>
+                    <th>Riichi Sticks</th>
+                    <th>{users.find(user => user.uuid === players[0]).name}</th>
+                    <th>{users.find(user => user.uuid === players[1]).name}</th>
+                    <th>{users.find(user => user.uuid === players[2]).name}</th>
+                    <th>{users.find(user => user.uuid === players[3]).name}</th>
+                    <th></th>
+                  </tr>
+                  {gameHistory.map((gameRecord, index) => {
+                    const getPointsString = (playerIdx) => {
+                      let diff = null;
+                      const curPoints = gameRecord.players[playerIdx].points;
+                      if (index !== 0) {
+                        const prevPoints = gameHistory[index - 1].players[playerIdx].points;
+
+                        if (curPoints !== prevPoints) {
+                          const delta = curPoints - prevPoints;
+                          diff = <span style={{color: delta < 0 ? 'red' : 'green'}}>{` (${delta < 0 ? '-' : '+'}${Math.abs(delta / 100)})`}</span>
+                        }
+                      }
+                      return <>
+                        {gameRecord.players[playerIdx].points.toLocaleString()}
+                        {diff}
+                      </>
+                    }
+                    
+                    return (
+                      <tr>
+                        <td>{gameRecord.gameOver ? 'Game Over' : roundString(gameRecord.round)}</td>
+                        <td>{gameRecord.gameOver ? '' : gameRecord.honba}</td>
+                        <td>{gameRecord.gameOver ? '' : gameRecord.riichiSticks}</td>
+                        <td>{getPointsString(0)}</td>
+                        <td>{getPointsString(1)}</td>
+                        <td>{getPointsString(2)}</td>
+                        <td>{getPointsString(3)}</td>
+                        <td><button onClick={() => revertToState(gameRecord, index)}>Revert to this state</button></td>
+                      </tr>
+                    );
+                  })}
+                  </tbody>
+              </table>
             </div>
           </section>
           

@@ -15,6 +15,7 @@ const Overlay = () => {
   const [dora, setDora] = React.useState([]);
   const [gameOver, setGameOver] = React.useState(false);
   const [gameActive, setGameActive] = React.useState(false);
+  const [gameTitle, setGameTitle] = React.useState('');
 
   const [animatingPlayerOne, setAnimatingPlayerOne] = React.useState(0);
   const [animatingPlayerTwo, setAnimatingPlayerTwo] = React.useState(0);
@@ -84,6 +85,7 @@ const Overlay = () => {
     setDora(parsed.dora);
     setGameOver(parsed.gameOver);
     setGameActive(parsed.gameActive);
+    setGameTitle(parsed.gameTitle);
   }
 
   React.useEffect(() => {
@@ -127,33 +129,40 @@ const Overlay = () => {
   return (
     <div className={'overlayContainer ' + (gameActive ? '' : 'gameInactive')}>
       <section className='gameStatusOverlay'>
-        <h2>{gameOver ? 'Game Over' : roundString(round)}</h2>
-        <div className='sticksContainer'>
-          <div className='stickPairing'>
-            <div className='stick riichiStick'>
-              <span></span>
+        <div className='gameStatusPrimary'>
+          <h2>{gameOver ? 'Game Over' : roundString(round)}</h2>
+          <div className='sticksContainer'>
+            <div className='stickPairing'>
+              <div className='stick riichiStick'>
+                <span></span>
+              </div>
+              {riichiSticks}
             </div>
-            {riichiSticks}
+            <div className='stickPairing'>
+              <div className='stick honbaStick'>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <div style={{flexBasis: '100%', height:0}} />
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              {honba}
+            </div>
           </div>
-          <div className='stickPairing'>
-            <div className='stick honbaStick'>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <div style={{flexBasis: '100%', height:0}} />
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-            {honba}
+          <div className='doraContainer'>
+            {dora.map((tile, index) => <Tile tile={tile} key={`${tile}-${index}`} />)}
           </div>
         </div>
-        <div className='doraContainer'>
-          {dora.map((tile, index) => <Tile tile={tile} key={`${tile}-${index}`} />)}
-        </div>
+
+        <section>
+          <h4 className={'gameStatusTitle'}>{gameTitle}</h4>
+        </section>
       </section>
+
 
       <section className='playerPointsOverlay'>
         <div className='playerPointsOverlayCardContainer'>
