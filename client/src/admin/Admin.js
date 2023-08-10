@@ -683,7 +683,7 @@ const Admin = () => {
               <span className={'modalClickable'} style={{gridColumn: 'span 6'}} onClick={() => handleTsumo(4000, 8000)}>Baiman {isPossibleWinnerDealer ? '(8000 all)' : '(4000/8000)'}</span>
 
               <span>11-12 han</span>
-              <span className={'modalClickable'} style={{gridColumn: 'span 6'}} onClick={() => handleTsumo(6000, 12000)}>Haneman {isPossibleWinnerDealer ? '(12000 all)' : '(6000/12000)'}</span>
+              <span className={'modalClickable'} style={{gridColumn: 'span 6'}} onClick={() => handleTsumo(6000, 12000)}>Sanbaiman {isPossibleWinnerDealer ? '(12000 all)' : '(6000/12000)'}</span>
 
               <span>13 han</span>
               <span className={'modalClickable'} style={{gridColumn: 'span 6'}} onClick={() => handleTsumo(8000, 16000)}>Yakuman {isPossibleWinnerDealer ? '(16000 all)' : '(8000/16000)'}</span>
@@ -780,7 +780,7 @@ const Admin = () => {
               <span className={'modalClickable'} style={{gridColumn: 'span 6'}} onClick={() => handleRon(16000, 24000)}>Baiman {isPossibleWinnerDealer ? '(24000)' : '(16000)'}</span>
 
               <span>11-12 han</span>
-              <span className={'modalClickable'} style={{gridColumn: 'span 6'}} onClick={() => handleRon(24000, 36000)}>Haneman {isPossibleWinnerDealer ? '(36000)' : '(24000)'}</span>
+              <span className={'modalClickable'} style={{gridColumn: 'span 6'}} onClick={() => handleRon(24000, 36000)}>Sanbaiman {isPossibleWinnerDealer ? '(36000)' : '(24000)'}</span>
 
               <span>13 han</span>
               <span className={'modalClickable'} style={{gridColumn: 'span 6'}} onClick={() => handleRon(32000, 48000)}>Yakuman {isPossibleWinnerDealer ? '(48000)' : '(32000)'}</span>
