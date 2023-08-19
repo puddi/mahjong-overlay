@@ -16,6 +16,8 @@ const Overlay = () => {
   const [gameOver, setGameOver] = React.useState(false);
   const [gameActive, setGameActive] = React.useState(false);
   const [gameTitle, setGameTitle] = React.useState('');
+  const [date, setDate] = React.useState('');
+  const [time, setTime] = React.useState('');
 
   const [animatingPlayerOne, setAnimatingPlayerOne] = React.useState(0);
   const [animatingPlayerTwo, setAnimatingPlayerTwo] = React.useState(0);
@@ -38,6 +40,20 @@ const Overlay = () => {
     onRest: () => setAnimatingPlayerFour(0),
     onResolve: () => setAnimatingPlayerFour(0),
   });
+
+  React.useEffect(() => {
+    const updateTime = setInterval(() => {
+      setTime((new Date()).toLocaleString("en-US", { hour: '2-digit', minute: '2-digit', hour12: false }))
+      setDate((new Date()).toLocaleString("en-US", { year: 'numeric', month: 'short', day: 'numeric' }))
+    }, 10000)
+    
+    setTime((new Date()).toLocaleString("en-US", { hour: '2-digit', minute: '2-digit', hour12: false }))
+    setDate((new Date()).toLocaleString("en-US", { year: 'numeric', month: 'short', day: 'numeric' }))
+
+    return () => {
+      clearInterval(updateTime);
+    }
+  }, []);
 
   React.useEffect(() => {
     [
@@ -157,10 +173,16 @@ const Overlay = () => {
             {dora.map((tile, index) => <Tile tile={tile} key={`${tile}-${index}`} />)}
           </div>
         </div>
+      </section>
 
-        <section>
+      <section className='clockOverlay'>
+        <section className='clockText'>
           <h4 className={'gameStatusTitle'}>{gameTitle}</h4>
+          <h4 className={'gameStatusTitle'}>{date} {time}</h4>
         </section>
+        <div className="logoContainer">
+          <img className={'logo'} src={require('../tiles/logo.png')} />
+        </div>
       </section>
 
 
