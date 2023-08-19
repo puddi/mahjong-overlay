@@ -2,8 +2,6 @@
   width: 1920px;
   height: 1080px;
   position: absolute;
-  background-image: url('../tiles/stream-dummy.png');
-  background-size: cover;
 }
 
 .overlayContainer > .gameStatusOverlay, .overlayContainer > .playerPointsOverlay {
